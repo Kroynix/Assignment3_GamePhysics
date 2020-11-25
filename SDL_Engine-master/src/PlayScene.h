@@ -7,7 +7,7 @@
 #include "Player.h"
 #include "Button.h"
 #include "Label.h"
-#include "Target.h"
+#include "Bullet.h"
 #include <cmath>
 
 class PlayScene : public Scene
@@ -34,8 +34,9 @@ private:
 	float distanceLabel;
 	glm::vec2 m_mousePosition;
 
-	Target* m_pBox;
-
+	Bullet* m_pBullet;
+	Player* m_pPlayer;
+	bool m_playerFacingRight;
 
 	// UI Items
 	Label* m_pInstructionsLabel;

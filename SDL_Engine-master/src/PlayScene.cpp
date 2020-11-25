@@ -44,6 +44,44 @@ void PlayScene::handleEvents()
 {
 	EventManager::Instance().update();
 
+
+	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_A)) {
+		m_pPlayer->moveleft();
+		m_pPlayer->setAnimationState(PLAYER_RUN_LEFT);
+		m_playerFacingRight = false;
+	}
+	else if (EventManager::Instance().isKeyDown(SDL_SCANCODE_D)) {
+		m_pPlayer->moveright();
+		m_pPlayer->setAnimationState(PLAYER_RUN_RIGHT);
+		m_playerFacingRight = true;
+	}
+	else
+	{
+		m_pPlayer->movestopX();
+	}
+
+	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_W)) {
+		m_pPlayer->moveup();
+	}
+	else if (EventManager::Instance().isKeyDown(SDL_SCANCODE_S)) {
+		m_pPlayer->movedown();
+	}
+	else
+	{
+		m_pPlayer->movestopY();
+	}
+
+
+	if (m_playerFacingRight)
+	{
+		m_pPlayer->setAnimationState(PLAYER_IDLE_RIGHT);
+	}
+	else
+	{
+		m_pPlayer->setAnimationState(PLAYER_IDLE_LEFT);
+	}
+
+
 	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_ESCAPE))
 	{
 		TheGame::Instance()->quit();
@@ -66,8 +104,12 @@ void PlayScene::start()
 	m_guiTitle = "Play Scene";
 
 	//Ball sprite
-	m_pBox = new Target();
-	addChild(m_pBox);
+	m_pBullet = new Bullet();
+	addChild(m_pBullet);
+
+	m_pPlayer = new Player();
+	addChild(m_pPlayer);
+
 
 	//m_pInstructionsLabel = new Label("Press the backtick (`) character to Render ", "Consolas");
 	//m_pInstructionsLabel->getTransform()->position = glm::vec2(Config::SCREEN_WIDTH * 0.5f, 600.0f);
@@ -78,64 +120,5 @@ void PlayScene::start()
 
 void PlayScene::GUI_Function() const
 {
-	// Always open with a NewFrame
-	ImGui::NewFrame();
-
-	// See examples by uncommenting the following - also look at imgui_demo.cpp in the IMGUI filter
-	//ImGui::ShowDemoWindow();
-
-	ImGui::Begin("PHYSICS CONTROLLER", NULL, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_MenuBar);
-
-
-	static int Rise = 3;
-	if (ImGui::SliderInt("Rise of Ramp", &Rise, 1, 5)) {}
-
-
-	static int Run = 4;
-	if (ImGui::SliderInt("Run of Ramp", &Run, 1, 5));
-
-
-	// Inversing Rise for Coordinate system
-	int drawingScale;
-	if (Rise == 5)
-		drawingScale = 1;
-	else if (Rise == 4)
-		drawingScale = 2;
-	else if (Rise == 3)
-		drawingScale = 3;
-	else if (Rise == 2)
-		drawingScale = 4;
-	else if (Rise == 1)
-		drawingScale = 5;
-
-	SDL_RenderDrawLine(Renderer::Instance()->getRenderer(), 50, 550, 50, (drawingScale)*100); // Vertical Line 
-	SDL_RenderDrawLine(Renderer::Instance()->getRenderer(), 50, 550, Run * 100, 550); // Horizontal Line
-	SDL_RenderDrawLine(Renderer::Instance()->getRenderer(), 50, (drawingScale) * 100, Run*100, 550); // Connecting Line
-
-
-	ImGui::Separator();
-	if (ImGui::Button("Reset")) {
-		m_pBox->m_Restart();
-		m_pBox->getTransform()->position = glm::vec2(50, ((drawingScale *100)-20));
-		m_pBox->getRigidBody()->velocity = glm::vec2(0, 0);
-		m_pBox->getRigidBody()->acceleration = glm::vec2(0, 0);
-
-	}
-
-	ImGui::Separator();
-	// Gui Button
-	if (ImGui::Button("Start")) {
-		m_pBox->m_Rise = Rise;
-		m_pBox->m_Run = Run;
-		m_pBox->m_Active();
-	}
 	
-
-	ImGui::End();
-	ImGui::EndFrame();
-
-	// Don't Remove this
-	ImGui::Render();
-	ImGuiSDL::Render(ImGui::GetDrawData());
-	ImGui::StyleColorsDark();
 }

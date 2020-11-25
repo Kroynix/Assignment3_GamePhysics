@@ -7,10 +7,10 @@
 #define PPM 5
 #define PI 3.141519
 #define GRAV 9.8
-class Target final : public DisplayObject {
+class Bullet final : public DisplayObject {
 public: // Public Defaults
-	Target();
-	~Target();
+	Bullet();
+	~Bullet();
 
 	// Inherited via GameObject
 	virtual void draw() override;

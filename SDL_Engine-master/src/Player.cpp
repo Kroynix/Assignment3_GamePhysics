@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "TextureManager.h"
+#include "Util.h"
 
 Player::Player(): m_currentAnimationState(PLAYER_IDLE_RIGHT)
 {
@@ -61,10 +62,65 @@ void Player::draw()
 
 void Player::update()
 {
+	const float deltaTime = 1.0f / 60.f;
+
+	//Normalize direction vector
+	float dirMag = Util::magnitude(m_direction);
+	if (dirMag > 0) { // Speeding Up
+		getRigidBody()->acceleration = Util::normalize(m_direction) * ACCELERATION;
+	}
+	else if (Util::magnitude(getRigidBody()->velocity) < ACCELERATION) // Stopping
+	{
+		getRigidBody()->acceleration = glm::vec2(0.f, 0.f);
+		getRigidBody()->velocity = glm::vec2(0.f, 0.f);
+	}
+	else if (Util::magnitude(getRigidBody()->velocity) > 0) 
+	{
+		getRigidBody()->acceleration = Util::normalize(getRigidBody()->velocity) * -ACCELERATION;
+	}
+
+	getRigidBody()->velocity += getRigidBody()->acceleration;
+	glm::vec2 pos = getTransform()->position;
+	pos.x += getRigidBody()->velocity.x * deltaTime;
+	pos.y += getRigidBody()->velocity.y * deltaTime;
+	getTransform()->position = pos;
+
 }
 
 void Player::clean()
 {
+}
+
+
+ // Movement
+void Player::moveleft()
+{
+	m_direction.x = -1;
+}
+
+void Player::moveright()
+{
+	m_direction.x = 1;
+}
+
+void Player::moveup()
+{
+	m_direction.y = -1;
+}
+
+void Player::movedown()
+{
+	m_direction.y = 1;
+}
+
+void Player::movestopX()
+{
+	m_direction.x = 0;
+}
+
+void Player::movestopY()
+{
+	m_direction.y = 0;
 }
 
 void Player::setAnimationState(const PlayerAnimationState new_state)

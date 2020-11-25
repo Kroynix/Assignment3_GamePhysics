@@ -1,10 +1,10 @@
-#include "Target.h"
+#include "Bullet.h"
 #include "TextureManager.h"
 
 #include <iostream>
-Target::Target()
+Bullet::Bullet()
 {
-	TextureManager::Instance()->load("../Assets/textures/Circle.png","circle");
+	TextureManager::Instance()->load("../Assets/textures/Bullet.png","circle");
 
 	const auto size = TextureManager::Instance()->getTextureSize("circle");
 	setWidth(size.x);
@@ -16,10 +16,10 @@ Target::Target()
 	setType(TARGET);
 }
 
-Target::~Target()
+Bullet::~Bullet()
 = default;
 
-void Target::draw()
+void Bullet::draw()
 {
 	// alias for x and y
 	const auto x = getTransform()->position.x;
@@ -29,16 +29,16 @@ void Target::draw()
 	TextureManager::Instance()->draw("circle", x, y, m_Rotation, 255, true);
 }
 
-void Target::update()
+void Bullet::update()
 {
 	m_move();
 }
 
-void Target::clean()
+void Bullet::clean()
 {
 }
 
-void Target::m_move()
+void Bullet::m_move()
 {
 	float deltaTime = 1.0f / 60.f; // Fixed Time Step
 	m_RiseRun = glm::vec2(m_Run, m_Rise);
@@ -74,22 +74,22 @@ void Target::m_move()
 	}
 }
 
-void Target::m_checkBounds()
+void Bullet::m_checkBounds()
 {
 }
 
-void Target::m_reset()
+void Bullet::m_reset()
 {
 	
 }
 
-void Target::m_Restart()
+void Bullet::m_Restart()
 {
 	m_Running = false;
 }
 
 
-void Target::m_Active()
+void Bullet::m_Active()
 {
 	m_Running = true;
 }
