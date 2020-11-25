@@ -22,11 +22,11 @@ PlayScene::~PlayScene()
 
 void PlayScene::draw()
 {
-	TextureManager::Instance()->draw("background", 400, 300, 0, 255, true);
-	GUI_Function();
+		TextureManager::Instance()->draw("background", 400, 300, 0, 255, true);
+		GUI_Function();
 
-	drawDisplayList();
-	SDL_SetRenderDrawColor(Renderer::Instance()->getRenderer(), 0, 255, 0, 255);
+		drawDisplayList();
+		SDL_SetRenderDrawColor(Renderer::Instance()->getRenderer(), 0, 255, 0, 255);
 }
 
 void PlayScene::update()
@@ -103,13 +103,19 @@ void PlayScene::start()
 	// Set GUI Title
 	m_guiTitle = "Play Scene";
 
-	//Ball sprite
-	m_pBullet = new Bullet();
-	addChild(m_pBullet);
 
 	m_pPlayer = new Player();
 	addChild(m_pPlayer);
 
+	m_pBulletPool = new BulletPool(10);
+	for (int i = 0; i < 10; i++)
+	{
+		Bullet* bullet = m_pBulletPool->spawn();
+		if (bullet) {
+			addChild(bullet);
+			bullet->getTransform()->position = glm::vec2(50 + rand() % 700, rand() % 100 * -1);
+		}
+	}
 
 	//m_pInstructionsLabel = new Label("Press the backtick (`) character to Render ", "Consolas");
 	//m_pInstructionsLabel->getTransform()->position = glm::vec2(Config::SCREEN_WIDTH * 0.5f, 600.0f);

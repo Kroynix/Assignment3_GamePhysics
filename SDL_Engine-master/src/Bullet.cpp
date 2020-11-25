@@ -14,6 +14,8 @@ Bullet::Bullet()
 	getRigidBody()->isColliding = false;
 
 	setType(TARGET);
+
+	Reset();
 }
 
 Bullet::~Bullet()
@@ -21,75 +23,55 @@ Bullet::~Bullet()
 
 void Bullet::draw()
 {
-	// alias for x and y
-	const auto x = getTransform()->position.x;
-	const auto y = getTransform()->position.y;
+	if (active) {
+		// alias for x and y
+		const auto x = getTransform()->position.x;
+		const auto y = getTransform()->position.y;
 
-	// draw the target
-	TextureManager::Instance()->draw("circle", x, y, m_Rotation, 255, true);
+		// draw the target
+		TextureManager::Instance()->draw("circle", x, y, 0, 255, true);
+	}
 }
+
 
 void Bullet::update()
 {
-	m_move();
+	if (active){
+	float deltaTime = 1.0f / 60.0f;
+
+	getRigidBody()->acceleration = glm::vec2(0, 9.8);
+	getRigidBody()->velocity = getRigidBody()->velocity + (getRigidBody()->acceleration * deltaTime);
+	getTransform()->position = getTransform()->position + getRigidBody()->velocity * deltaTime;
+
+	}
+
+
 }
 
 void Bullet::clean()
 {
 }
 
-void Bullet::m_move()
-{
-	float deltaTime = 1.0f / 60.f; // Fixed Time Step
-	m_RiseRun = glm::vec2(m_Run, m_Rise);
 
-	if (m_Running)
-	{
-		// Check if the Position of the Box in the Y direction is >= 550 (Floor Hieght)
-		if (getTransform()->position.y >= 550) // Checking if Box hit floor
-		{
-			m_Rotation = 0;
-			m_Decel = m_FrictionCo * GRAV;
-			getRigidBody()->velocity.y = 0;
-			if (getRigidBody()->velocity.x > 0)
-				getRigidBody()->velocity.x -= m_Decel * deltaTime * PPM; // PPM for only Deceleration on Floor
-			else if (getRigidBody()->velocity.x <= 0)
-				getRigidBody()->velocity.x = 0;
-
-			
-		}
-		else // Check if the position of the Box is anywhere else but the floor
-		{
-			m_Angle = atan(m_Rise / m_Run);
-			m_Rotation = (180 / PI) * m_Angle;
-			m_Accel = GRAV * sin(m_Angle);
-			getRigidBody()->acceleration = (m_Accel) * Util::normalize(m_RiseRun) ;
-			getRigidBody()->velocity += getRigidBody()->acceleration * deltaTime;
-		}
-		getTransform()->position.x += getRigidBody()->velocity.x;
-		getTransform()->position.y += getRigidBody()->velocity.y;
-
-		std::cout << "Run: " << m_Run << std::endl;
-		std::cout << "Rise: " << m_Rise << std::endl;
-	}
-}
 
 void Bullet::m_checkBounds()
 {
 }
 
-void Bullet::m_reset()
-{
-	
-}
 
 void Bullet::m_Restart()
 {
-	m_Running = false;
 }
 
 
 void Bullet::m_Active()
 {
-	m_Running = true;
+}
+
+
+void Bullet::Reset()
+{
+	getRigidBody()->velocity = glm::vec2(0.f, 0.f);
+	getRigidBody()->acceleration = glm::vec2(0.f, 9.8f);
+	getRigidBody()->isColliding = false;
 }

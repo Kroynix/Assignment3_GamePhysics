@@ -9,6 +9,7 @@
 #include "Label.h"
 #include "Bullet.h"
 #include <cmath>
+#include "BulletPool.h"
 
 class PlayScene : public Scene
 {
@@ -36,7 +37,9 @@ private:
 
 	Bullet* m_pBullet;
 	Player* m_pPlayer;
+	BulletPool* m_pBulletPool;
 	bool m_playerFacingRight;
+
 
 	// UI Items
 	Label* m_pInstructionsLabel;
