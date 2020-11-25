@@ -1,7 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project>
-  <ProjectOutputs>C:\Users\Zhect\Desktop\Year 2\Assignment1_GamePhysics_TylerMiles_NathanNguyen\SDL_Engine-master\bin\Debug\GamePhysics_Nathan_Nguyen_Tyler_Miles.exe</ProjectOutputs>
-  <ContentFiles></ContentFiles>
-  <SatelliteDlls></SatelliteDlls>
-  <NonRecipeFileRefs></NonRecipeFileRefs>
+  <ProjectOutputs>
+    <ProjectOutput>
+      <FullPath>H:\GAME2005_A3_TylerMiles_NathanNguyen\Assignment3_GamePhysics\SDL_Engine-master\bin\Debug\GamePhysics_Nathan_Nguyen_Tyler_Miles.exe</FullPath>
+    </ProjectOutput>
+  </ProjectOutputs>
+  <ContentFiles />
+  <SatelliteDlls />
+  <NonRecipeFileRefs />
 </Project>
