@@ -29,10 +29,26 @@ void PlayScene::draw()
 		SDL_SetRenderDrawColor(Renderer::Instance()->getRenderer(), 0, 255, 0, 255);
 }
 
+
+
 void PlayScene::update()
 {
+	float deltaTime = 1.0f / 60.0f;
+
 	updateDisplayList();
 
+	if (SDL_GetTicks() - bulletspawnTimerStart >= bulletspawnTimeDuration) {
+		spawnBullet();
+	}
+
+	std::vector<Bullet*>& activeBullets = m_pBulletPool->active;
+	for (std::vector<Bullet*>::iterator myiter = activeBullets.begin(); myiter != activeBullets.end(); ++myiter) {
+		Bullet* bullet = *myiter;
+		if ( (*myiter)->getTransform()->position.y >= 750) {
+			m_pBulletPool->despawn(bullet);
+			break;
+		}
+	}
 }
 
 void PlayScene::clean()
@@ -108,14 +124,10 @@ void PlayScene::start()
 	addChild(m_pPlayer);
 
 	m_pBulletPool = new BulletPool(10);
-	for (int i = 0; i < 10; i++)
-	{
-		Bullet* bullet = m_pBulletPool->spawn();
-		if (bullet) {
-			addChild(bullet);
-			bullet->getTransform()->position = glm::vec2(50 + rand() % 700, rand() % 100 * -1);
-		}
-	}
+	
+	bulletspawnTimerStart = SDL_GetTicks();
+
+
 
 	//m_pInstructionsLabel = new Label("Press the backtick (`) character to Render ", "Consolas");
 	//m_pInstructionsLabel->getTransform()->position = glm::vec2(Config::SCREEN_WIDTH * 0.5f, 600.0f);
@@ -123,6 +135,17 @@ void PlayScene::start()
 
 	TextureManager::Instance()->load("../Assets/textures/Background.png", "background");
 }
+
+void PlayScene::spawnBullet() {
+		Bullet* bullet = m_pBulletPool->spawn();
+		if (bullet) {
+			addChild(bullet);
+			bullet->getTransform()->position = glm::vec2(50 + rand() % 700, rand() % 100 * -1);
+		}
+		bulletspawnTimerStart = SDL_GetTicks();
+}
+
+
 
 void PlayScene::GUI_Function() const
 {

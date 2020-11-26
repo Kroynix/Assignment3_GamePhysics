@@ -46,7 +46,7 @@ void StartScene::handleEvents()
 void StartScene::start()
 {
 	const SDL_Color blue = { 0, 0, 255, 255 };
-	m_pStartLabel = new Label("GAME 2005 - ASSIGNMENT 2", "Consolas", 60, blue, glm::vec2(400.0f, 40.0f));
+	m_pStartLabel = new Label("GAME 2005 - ASSIGNMENT 3", "Consolas", 60, blue, glm::vec2(400.0f, 40.0f));
 	m_pStartLabel->setParent(this);
 	addChild(m_pStartLabel);
 
@@ -64,6 +64,9 @@ void StartScene::start()
 	m_pStartButton = new Button();
 	m_pStartButton->getTransform()->position = glm::vec2(400.0f, 400.0f); 
 
+	m_pStartButton2 = new Button2();
+	m_pStartButton2->getTransform()->position = glm::vec2(400.0f, 500.0f);
+
 	m_pStartButton->addEventListener(CLICK, [&]()-> void
 	{
 		m_pStartButton->setActive(false);
@@ -79,7 +82,33 @@ void StartScene::start()
 	{
 		m_pStartButton->setAlpha(255);
 	});
+
+
+	
+	m_pStartButton2->addEventListener(CLICK, [&]()-> void
+	{
+		m_pStartButton2->setActive(false);
+		TheGame::Instance()->changeSceneState(PLAY_SCENE);
+	});
+
+	m_pStartButton2->addEventListener(MOUSE_OVER, [&]()->void
+	{
+		m_pStartButton2->setAlpha(128);
+	});
+
+	m_pStartButton2->addEventListener(MOUSE_OUT, [&]()->void
+	{
+		m_pStartButton2->setAlpha(255);
+	});
+
+
+
+
+
 	addChild(m_pStartButton);
+	addChild(m_pStartButton2);
+
+
 
 	
 }

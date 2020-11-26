@@ -16,9 +16,9 @@ public:
 	Bullet* spawn();
 	void despawn(Bullet*);
 
-private:
-
 	std::vector<Bullet*> active;
+
+private:
 	std::vector<Bullet*> inactive;
 };
 

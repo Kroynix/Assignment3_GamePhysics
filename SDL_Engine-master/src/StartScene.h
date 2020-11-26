@@ -26,6 +26,7 @@ private:
 	Label* m_pStudentLabel2{};
 
 	Button* m_pStartButton;
+	Button2* m_pStartButton2;
 };
 
 #endif /* defined (__START_SCENE__) */

@@ -23,6 +23,7 @@ Bullet* BulletPool::spawn()
 		bullet->active = true;
 		inactive.pop_back();
 		active.push_back(bullet);
+		std::cout << "Bullet Spawned: " << std::to_string(active.size()) << std::endl;
 	}
 	else
 	{
@@ -40,6 +41,7 @@ void BulletPool::despawn(Bullet* bullet) {
 	for (std::vector<Bullet*>::iterator myiter = active.begin(); myiter != active.end(); myiter++) {
 		if (*myiter == bullet) {
 			active.erase(myiter);
+			std::cout << "Bullet Despawned" << std::endl;
 			return;
 		}
 	}

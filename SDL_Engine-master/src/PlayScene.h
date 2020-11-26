@@ -45,9 +45,10 @@ private:
 	Label* m_pInstructionsLabel;
 
 	
+	const float bulletspawnTimeDuration = 1500.0f;
+	float bulletspawnTimerStart;
 
-
-
+	void spawnBullet();
 
 
 
