@@ -1,10 +1,32 @@
-# SDL Engine v0.24
+# SDL Engine v0.28
 
 Latest Changes
 ---------------
--Added IMGUI Support (see GUI_Function in PlayScene.cpp)
+-Added second scene
+-Bullet despawn, respawn added
+
+
 
 Previous Versions
+v0.27
+-----
+-File size Shrunk removement of redundant files
+
+v0.26
+-----
+-Random X,Y Generation of Bullets
+-Small collision Testing with Manager
+-Bullet Generation limits added
+
+
+
+v0.25
+-----
+-Reimplimentation of Movement, Renaming of files to appropriate names.
+
+v0.24
+-----
+-Added IMGUI Support (see GUI_Function in PlayScene.cpp)
 v0.23
 -----
 -fixed removeChild bug
