@@ -1,13 +1,17 @@
-# SDL Engine v0.28 | Assignment 3 Game Physics
+# SDL Engine v0.29 | Assignment 3 Game Physics
 
 Latest Changes
 ---------------
+- Sound Added
+- Collision Finalized
+- Wall Barriers added
+
+Previous Versions
+v0.28
+-----
 -Added second scene
 -Bullet despawn, respawn added
 
-
-
-Previous Versions
 v0.27
 -----
 -File size Shrunk removement of redundant files
