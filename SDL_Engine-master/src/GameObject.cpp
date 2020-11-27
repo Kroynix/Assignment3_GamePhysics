@@ -21,6 +21,7 @@ RigidBody* GameObject::getRigidBody()
 int GameObject::getWidth() const
 {
 	return m_width;
+	
 }
 
 int GameObject::getHeight() const

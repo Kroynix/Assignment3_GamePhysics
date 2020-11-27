@@ -32,7 +32,7 @@ int main(int argc, char * args[])
 	freopen("CON", "w", stdout);
 
 
-	TheGame::Instance()->init("GAME 2005 - ASSIGNEMENT 2 - NATHAN NGUYEN, TYLER MILES", 100, 100, 800, 600, false);
+	TheGame::Instance()->init("GAME 2005 - ASSIGNEMENT 3 - NATHAN NGUYEN, TYLER MILES", 100, 100, 800, 600, false);
 
 	while (TheGame::Instance()->isRunning())
 	{

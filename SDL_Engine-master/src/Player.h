@@ -23,6 +23,7 @@ public:
 	void movedown();
 	void movestopX();
 	void movestopY();
+	void m_checkBounds();
 
 
 	// setters

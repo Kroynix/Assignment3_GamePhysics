@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "TextureManager.h"
 #include "Util.h"
+#include "CollisionManager.h"
 
 Player::Player(): m_currentAnimationState(PLAYER_IDLE_RIGHT)
 {
@@ -85,6 +86,9 @@ void Player::update()
 	pos.y += getRigidBody()->velocity.y * deltaTime;
 	getTransform()->position = pos;
 
+
+	m_checkBounds();
+
 }
 
 void Player::clean()
@@ -149,4 +153,29 @@ void Player::m_buildAnimations()
 	runAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-3"));
 
 	setAnimation(runAnimation);
+}
+
+void Player::m_checkBounds()
+{
+
+	if (getTransform()->position.x > Config::SCREEN_WIDTH)
+	{
+		getTransform()->position = glm::vec2(Config::SCREEN_WIDTH, getTransform()->position.y);
+	}
+
+	if (getTransform()->position.x < 0)
+	{
+		getTransform()->position = glm::vec2(0, getTransform()->position.y);
+	}
+
+	if (getTransform()->position.y > Config::SCREEN_HEIGHT)
+	{
+		getTransform()->position = glm::vec2(getTransform()->position.x, Config::SCREEN_HEIGHT);
+	}
+
+	if (getTransform()->position.y < 0)
+	{
+		getTransform()->position = glm::vec2(getTransform()->position.x, 0.0f);
+	}
+
 }

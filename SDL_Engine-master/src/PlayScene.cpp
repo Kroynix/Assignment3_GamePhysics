@@ -1,6 +1,8 @@
 #include "PlayScene.h"
 #include "Game.h"
 #include "EventManager.h"
+#include "SoundManager.h"
+#include "SDL_mixer.h"
 
 // required for IMGUI
 #include "imgui.h"
@@ -44,11 +46,20 @@ void PlayScene::update()
 	std::vector<Bullet*>& activeBullets = m_pBulletPool->active;
 	for (std::vector<Bullet*>::iterator myiter = activeBullets.begin(); myiter != activeBullets.end(); ++myiter) {
 		Bullet* bullet = *myiter;
-		if ( (*myiter)->getTransform()->position.y >= 750) {
+
+		
+
+		if ((*myiter)->getTransform()->position.y >= 750) {
 			m_pBulletPool->despawn(bullet);
+			removeChild(bullet);
 			break;
 		}
+
+		if (bullet->active) {
+			CollisionManager::circleAABBCheck(m_pPlayer, bullet);
+		}
 	}
+
 }
 
 void PlayScene::clean()
@@ -120,10 +131,12 @@ void PlayScene::start()
 	m_guiTitle = "Play Scene";
 
 
+
 	m_pPlayer = new Player();
 	addChild(m_pPlayer);
 
 	m_pBulletPool = new BulletPool(10);
+
 	
 	bulletspawnTimerStart = SDL_GetTicks();
 
@@ -134,6 +147,7 @@ void PlayScene::start()
 	//addChild(m_pInstructionsLabel);
 
 	TextureManager::Instance()->load("../Assets/textures/Background.png", "background");
+	SoundManager::Instance().load("../Assets/explosion.wav", "explosion", SOUND_SFX);
 }
 
 void PlayScene::spawnBullet() {

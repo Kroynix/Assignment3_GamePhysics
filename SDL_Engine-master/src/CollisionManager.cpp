@@ -1,5 +1,7 @@
 #include "CollisionManager.h"
 #include "Util.h"
+#include "Bullet.h"
+#include "Player.h"
 #include <algorithm>
 
 
@@ -221,16 +223,18 @@ bool CollisionManager::circleAABBCheck(GameObject* object1, GameObject* object2)
 	const int circleRadius = std::max(object1->getWidth() * 0.5f, object1->getHeight() * 0.5f);
 	// aabb
 	const auto boxWidth = object2->getWidth();
-	int halfBoxWidth = boxWidth * 0.5f;
-	const auto boxHeight = object2->getHeight();
-	int halfBoxHeight = boxHeight * 0.5f;
+	
+	int halfBoxWidth = boxWidth * 1.5f;
 
-	const auto boxStart = object2->getTransform()->position - glm::vec2(boxWidth * 0.5f, boxHeight * 0.5f);
+	const auto boxHeight = object2->getHeight();
+	
+	int halfBoxHeight = boxHeight * 1.5f;
+
+	const auto boxStart = object2->getTransform()->position - glm::vec2(boxWidth * 1.5f, boxHeight * 1.5f);
 
 	if (circleAABBsquaredDistance(circleCentre, circleRadius, boxStart, boxWidth, boxHeight) <= (circleRadius * circleRadius))
 	{
 		if (!object2->getRigidBody()->isColliding) {
-
 			object2->getRigidBody()->isColliding = true;
 
 			const auto attackVector = object1->getTransform()->position - object2->getTransform()->position;
@@ -241,10 +245,11 @@ bool CollisionManager::circleAABBCheck(GameObject* object1, GameObject* object2)
 
 			switch (object2->getType()) {
 			case TARGET:
-				std::cout << "Collision with Planet!" << std::endl;
-				SoundManager::Instance().playSound("yay", 0);
+				std::cout << "Collision with Bullet!" << std::endl;
+				
+				SoundManager::Instance().playSound("explosion", 0);
 				break;
-			case SHIP:
+			case PLAYER:
 				{
 					SoundManager::Instance().playSound("thunder", 0);
 					auto velocityX = object1->getRigidBody()->velocity.x;
